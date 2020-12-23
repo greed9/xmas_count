@@ -10,7 +10,7 @@ from counter import Counter
 import neopixel
 
 def i2c_scan( i2c ):
-    print('Scan i2c bus...')
+    print('Scan i2c bus...') 
     devices = i2c.scan()
 
     if len(devices) == 0:
@@ -119,6 +119,9 @@ def main( ):
     while True:
         print( "Days til Xmas...")
         days = days_til_date( oled, 2020, 12, 25 )
+
+        # Not sure why this is needed, but...
+        days = days + 1
         if days == 1 or days == 0:
             # alternate red and green
             if even :
