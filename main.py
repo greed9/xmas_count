@@ -29,7 +29,7 @@ def days_til_date ( oled, target_year, target_mon, target_day ):
     dtString = str(year) + ' ' + str(mon) + ' ' + str( day ) + ' ' + str( hour) + ' ' + str(minute) 
     oled.text( '                    ', 0, 0)
     oled.text( dtString, 0, 0)
-    print( dtString )
+    #print( dtString )
 
     future_time = utime.mktime((target_year, target_mon, target_day, 0, 0, 0, 0, 0))
     today = utime.mktime((year, mon, day, hour, minute, sec, dayno, a))
@@ -103,7 +103,7 @@ def main( ):
     result = set_date_from_ntp ( oled )
     while result == 0:
         time.sleep(5)
-        result = set_date_from_ntp
+        result = set_date_from_ntp ( oled )
 
     # Light up the neopixels
     set_neopixel_colors( 0, 0, 64 )
@@ -111,17 +111,19 @@ def main( ):
     nixie_driver = NixieDriver( 25, 26, 27 )
     counters = [Counter( nixie_driver, 0), Counter( nixie_driver, 1)]
 
+    # Show today's date once
+    calendar_display(counters)
+
     counters[1].set_count( 0 )
     counters[0].set_count( 0 )
     time.sleep( 1 )
     even = True 
 
     while True:
-        print( "Days til Xmas...")
+        print( "Days til Xmas...", end='')
         days = days_til_date( oled, 2020, 12, 25 )
+        print( str(days))
 
-        # Not sure why this is needed, but...
-        days = days + 1
         if days == 1 or days == 0:
             # alternate red and green
             if even :
